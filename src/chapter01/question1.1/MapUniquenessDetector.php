@@ -1,15 +1,23 @@
 <?php
 
-class MapUniquenessDetector {
-    public static function isUnique($str) {
-        $charMap = [];
-        for ($i=0, $length=strlen($str); $i<$length; $i++) {
-            $char = $str[$i];
-            if (array_key_exists($char, $charMap)) {
+class MapUniquenessDetector
+{
+    public static function isUnique($string): bool
+    {
+        if (strlen($string) > 128) {
+            return false;
+        }
+
+        $charSet = [];
+        for ($i = 0; $i < strlen($string); $i++) {
+            $value = substr($string, $i, 1);
+
+            if (isset($charSet[$value])) {
                 return false;
             }
-            $charMap[$char] = 1;
+            $charSet[$value] = true;
         }
+
         return true;
     }
 }
