@@ -1,9 +1,12 @@
 <?php
+
 require_once __DIR__ . '/../../../src/chapter07/question7.09/CircularArray.php';
 
-class CircularArrayTest extends \PHPUnit\Framework\TestCase {
+class CircularArrayTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function testCircularArrayRotation() {
+    public function testCircularArrayRotation()
+    {
         $arr = new CircularArray();
         $this->assertEquals(0, count($arr));
         $arr[] = 'zero';
@@ -17,8 +20,8 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('one', $arr[1]);
         $this->assertEquals('two', $arr[2]);
 
-        $expected = [ 0 => 'zero', 1 => 'one', 2 => 'two' ];
-        $i=0;
+        $expected = [0 => 'zero', 1 => 'one', 2 => 'two'];
+        $i = 0;
         foreach ($arr as $key => $value) {
             $this->assertEquals($i, $key);
             $this->assertEquals($expected[$i], $value);
@@ -28,8 +31,8 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $arr->rotate(1);
         $this->assertEquals(3, count($arr));
 
-        $expected = [ 0 => 'two', 1 => 'zero', 2 => 'one' ];
-        $i=0;
+        $expected = [0 => 'two', 1 => 'zero', 2 => 'one'];
+        $i = 0;
         foreach ($arr as $key => $value) {
             $this->assertEquals($i, $key);
             $this->assertEquals($expected[$i], $value);
@@ -40,7 +43,8 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('one', $arr[2]);
     }
 
-    public function testCircularArrayCount() {
+    public function testCircularArrayCount()
+    {
         $arr = new CircularArray();
         $arr[0] = 'a';
         $arr[1] = 'b';
@@ -56,7 +60,8 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('a', $arr[0]);
     }
 
-    public function testCircularArrayRotationBackwardsAndForwards() {
+    public function testCircularArrayRotationBackwardsAndForwards()
+    {
         $arr = new CircularArray('a', 'b', 'c', 'd', 'e');
         $this->assertEquals('a', $arr[0]);
         $this->assertEquals('b', $arr[1]);
@@ -101,7 +106,8 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('e', $arr[4]);
     }
 
-    public function testCircularArrayZeroLengthRotation() {
+    public function testCircularArrayZeroLengthRotation()
+    {
         $arr = new CircularArray();
         $this->assertEquals(0, count($arr));
         $arr->rotate(6);
@@ -110,21 +116,24 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, count($arr));
     }
 
-    public function testAddInvalidOffset() {
+    public function testAddInvalidOffset()
+    {
         $arr = new CircularArray();
-        $this->setExpectedException('OutOfRangeException');
+        $this->expectException('OutOfRangeException');
         $arr['invalid'] = 'value';
     }
 
-    public function testAddOutOfRangeOffset() {
+    public function testAddOutOfRangeOffset()
+    {
         $arr = new CircularArray();
         $arr[0] = 'zero';
         $arr[1] = 'one';
-        $this->setExpectedException('OutOfRangeException');
+        $this->expectException('OutOfRangeException');
         $arr[3] = 'three';
     }
 
-    public function testAddToArrayAfterRotation() {
+    public function testAddToArrayAfterRotation()
+    {
         $arr = new CircularArray('zero', 'one', 'two');
         $this->assertEquals('zero', $arr[0]);
         $this->assertEquals('one', $arr[1]);
@@ -136,11 +145,12 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('three', $arr[1]);
         $this->assertEquals('zero', $arr[2]);
         $this->assertEquals('one', $arr[3]);
-        $this->setExpectedException('OutOfRangeException');
+        $this->expectException('OutOfRangeException');
         $arr[4] = 'four';
     }
 
-    public function testUnsetAfterRotation() {
+    public function testUnsetAfterRotation()
+    {
         $arr = new CircularArray('zero', 'one', 'two');
         $this->assertEquals('zero', $arr[0]);
         $this->assertEquals('one', $arr[1]);
@@ -149,28 +159,31 @@ class CircularArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('two', $arr[0]);
         $this->assertEquals('zero', $arr[1]);
         $this->assertEquals('one', $arr[2]);
-        $this->setExpectedException('OutOfRangeException');
+        $this->expectException('OutOfRangeException');
         unset($arr[2]);
     }
 
-    public function testUnsetLastElement() {
+    public function testUnsetLastElement()
+    {
         $arr = new CircularArray('zero', 'one', 'two');
-        $this->assertEquals(3, count($arr));
+        $this->assertCount(3, $arr);
         unset($arr[2]);
-        $this->assertEquals(2, count($arr));
+        $this->assertCount(2, $arr);
     }
 
-    public function testUnsetMiddleElement() {
+    public function testUnsetMiddleElement()
+    {
         $arr = new CircularArray('zero', 'one', 'two');
-        $this->assertEquals(3, count($arr));
-        $this->setExpectedException('OutOfRangeException');
+        $this->assertCount(3, $arr);
+        $this->expectException('OutOfRangeException');
         unset($arr[1]);
     }
 
-    public function testUnsetWithInvalidOffset() {
+    public function testUnsetWithInvalidOffset()
+    {
         $arr = new CircularArray('zero', 'one', 'two');
-        $this->assertEquals(3, count($arr));
-        $this->setExpectedException('OutOfRangeException');
+        $this->assertCount(3, $arr);
+        $this->expectException('OutOfRangeException');
         unset($arr[99]);
     }
 }

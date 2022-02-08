@@ -1,7 +1,9 @@
 <?php
+
 require_once __DIR__ . '/../../../src/chapter04/question4.11/BinaryTreeNodeWithRandomSelection.php';
 
-class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase {
+class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase
+{
     private $tree;
     private $n1;
     private $n2;
@@ -9,7 +11,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
     private $n4;
     private $n5;
 
-    public function setUp() {
+    public function setUp(): void
+    {
         $this->n1 = new BinaryTreeNodeWithRandomSelection('a');
         $this->n2 = new BinaryTreeNodeWithRandomSelection('b');
         $this->n3 = new BinaryTreeNodeWithRandomSelection('e');
@@ -30,7 +33,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(3, $this->n3->getNodeCount());
     }
 
-    public function tearDown() {
+    public function tearDown(): void
+    {
         $this->n1 = null;
         $this->n2 = null;
         $this->n3 = null;
@@ -39,11 +43,12 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->tree = null;
     }
 
-    public function testRandomNode() {
+    public function testRandomNode()
+    {
         $resultCounts = [];
         $nodeCount = 5;
         $total = 50000;
-        for ($i=0; $i<$total; $i++) {
+        for ($i = 0; $i < $total; $i++) {
             $randomNode = $this->tree->getRandomNode();
             $data = $randomNode->getData();
             if (array_key_exists($data, $resultCounts)) {
@@ -56,30 +61,38 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $expectedCount = $total / $nodeCount;
         $this->assertEquals($nodeCount, count($resultCounts));
         foreach ($resultCounts as $data => $count) {
-            $epsilon = abs($count/$expectedCount - 1);
-            $this->assertTrue($epsilon < 0.025, 'Expected a value close to ' . $expectedCount . ' but found ' . $count . ' which is off by ' . ($epsilon * 100) . '%');
+            $epsilon = abs($count / $expectedCount - 1);
+            $this->assertTrue(
+                $epsilon < 0.025,
+                'Expected a value close to ' . $expectedCount . ' but found ' . $count . ' which is off by ' . ($epsilon * 100) . '%'
+            );
         }
     }
 
-    public function testFind() {
+    public function testFind()
+    {
         $node = $this->tree->find('c');
         $this->assertNotNull($node);
         $this->assertEquals($this->n4->getData(), $node->getData());
     }
 
-    public function testNotFound() {
+    public function testNotFound()
+    {
         $this->assertNull($this->tree->find('q'));
     }
 
-    public function testMin() {
+    public function testMin()
+    {
         $this->assertEquals('a', $this->tree->min()->getData());
     }
 
-    public function testMax() {
+    public function testMax()
+    {
         $this->assertEquals('e', $this->tree->max()->getData());
     }
 
-    public function testInsert() {
+    public function testInsert()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
 
         $n6 = $this->tree->insert('h');
@@ -106,11 +119,13 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertNull($this->tree->insert('f'), 'Cannot insert the same value twice!');
     }
 
-    public function testDeleteNonExistentNode() {
+    public function testDeleteNonExistentNode()
+    {
         $this->assertFalse($this->tree->delete('q'));
     }
 
-    public function testDeleteLeftLeafNode() {
+    public function testDeleteLeftLeafNode()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $this->assertEquals('a', $this->n2->getLeft()->getData());
         $this->assertTrue($this->tree->delete('a'));
@@ -119,7 +134,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(4, $this->tree->getNodeCount());
     }
 
-    public function testDeleteRightLeafNode() {
+    public function testDeleteRightLeafNode()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $this->assertEquals('d', $this->n4->getRight()->getData());
         $this->assertTrue($this->tree->delete('d'));
@@ -128,7 +144,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(4, $this->tree->getNodeCount());
     }
 
-    public function testDeleteNodeWithRightChildAndReparentLeft() {
+    public function testDeleteNodeWithRightChildAndReparentLeft()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $this->assertEquals('c', $this->n3->getLeft()->getData());
         $this->assertTrue($this->tree->delete('c'));
@@ -137,7 +154,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(4, $this->tree->getNodeCount());
     }
 
-    public function testDeleteNodeWithRightChildAndReparentRight() {
+    public function testDeleteNodeWithRightChildAndReparentRight()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $n6 = new BinaryTreeNodeWithRandomSelection('h');
         $this->n3->setRight($n6);
@@ -157,7 +175,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(6, $this->tree->getNodeCount());
     }
 
-    public function testDeleteNodeWithLeftChildAndReparentLeft() {
+    public function testDeleteNodeWithLeftChildAndReparentLeft()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $n6 = new BinaryTreeNodeWithRandomSelection('h');
         $this->n3->setRight($n6);
@@ -182,7 +201,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(7, $this->tree->getNodeCount());
     }
 
-    public function testDeleteNodeWithLeftChildAndReparentRight() {
+    public function testDeleteNodeWithLeftChildAndReparentRight()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $n6 = new BinaryTreeNodeWithRandomSelection('h');
         $this->n3->setRight($n6);
@@ -202,7 +222,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(6, $this->tree->getNodeCount());
     }
 
-    public function testDeleteRightNodeWithTwoChildNodesThatAreLeafNodes() {
+    public function testDeleteRightNodeWithTwoChildNodesThatAreLeafNodes()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $n6 = new BinaryTreeNodeWithRandomSelection('h');
         $this->n3->setRight($n6);
@@ -229,7 +250,8 @@ class BinaryTreeNodeWithRandomSelectionTest extends \PHPUnit\Framework\TestCase 
         $this->assertEquals(7, $this->tree->getNodeCount());
     }
 
-    public function testDeleteNodeWithTwoChildNodesThatAreNonLeafNodes() {
+    public function testDeleteNodeWithTwoChildNodesThatAreNonLeafNodes()
+    {
         $this->assertEquals(5, $this->tree->getNodeCount());
         $n6 = new BinaryTreeNodeWithRandomSelection('h');
         $this->n3->setRight($n6);

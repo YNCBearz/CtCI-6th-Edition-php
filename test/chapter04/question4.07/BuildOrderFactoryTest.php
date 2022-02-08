@@ -29,7 +29,7 @@ class BuildOrderFactoryTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testBuildOrderWithCircularReference() {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $projects = [ "a", "b", "c", "d", "e", "f" ];
         $dependencies = [
             new Dependency("a", "b"),

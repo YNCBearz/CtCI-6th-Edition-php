@@ -1,13 +1,16 @@
 <?php
+
 $baseDir = __DIR__ . '/../../../src/chapter02/question2.4';
 require_once $baseDir . '/LinkedListPartitioner.php';
 
-class LinkedListPartitionerTest extends \PHPUnit\Framework\TestCase {
+class LinkedListPartitionerTest extends \PHPUnit\Framework\TestCase
+{
     protected $linkedList;
     protected $values;
 
-    protected function setUp() {
-        $this->values = [ 3, 5, 8, 5, 10, 2, 1 ];
+    protected function setUp(): void
+    {
+        $this->values = [3, 5, 8, 5, 10, 2, 1];
         // build a linked list
         $head = null;
         $previousNode = null;
@@ -23,12 +26,14 @@ class LinkedListPartitionerTest extends \PHPUnit\Framework\TestCase {
         $this->linkedList = $head;
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void
+    {
         $this->linkedList = null;
         $this->values = null;
     }
 
-    public function testPartition() {
+    public function testPartition()
+    {
         $x = 5;
         $node = LinkedListPartitioner::partition($this->linkedList, $x);
         $beforePartition = true;

@@ -30,7 +30,7 @@ class RandomAccessSizedStackTest extends \PHPUnit\Framework\TestCase {
 
     public function testIndexOutOfBounds() {
         $stack = new RandomAccessSizedStack();
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $stack->peekAt(0);
     }
 }

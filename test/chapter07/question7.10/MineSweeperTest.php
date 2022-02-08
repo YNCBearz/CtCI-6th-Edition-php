@@ -70,7 +70,7 @@ class MineSweeperTest extends \PHPUnit\Framework\TestCase {
 
     public function testInvalidInputSource() {
         $game = new Game(new Board());
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
         $game->play(__DIR__ . '/resources/file_not_found.txt');
     }
 }

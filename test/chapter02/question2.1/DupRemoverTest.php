@@ -9,7 +9,8 @@ class DupRemoverTest extends \PHPUnit\Framework\TestCase {
     protected $values;
     protected $uniqueValues;
 
-    protected function setUp() {
+    protected function setUp(): void
+    {
         $this->values = [ 80, 55, 73, 55, 1, 6, 73, 55 ];
         $this->uniqueValues = [ 80, 55, 73, 1, 6 ];
         // build a linked list
@@ -27,7 +28,8 @@ class DupRemoverTest extends \PHPUnit\Framework\TestCase {
         $this->linkedList = $head;
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void
+    {
         $this->linkedList = null;
         $this->values = null;
         $this->uniqueValues = null;

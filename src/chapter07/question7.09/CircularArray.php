@@ -7,27 +7,31 @@
  * used if possible. PHP does not support generic types at this time,
  * although Hack does: http://docs.hhvm.com/manual/en/hack.generics.php
  */
-class CircularArray implements Iterator, ArrayAccess, Countable {
+class CircularArray implements Iterator, ArrayAccess, Countable
+{
     private $data;
     private $size;
     private $current;
     private $offset;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->offset = 0;
         $this->data = func_get_args();
         $this->size = count($this->data);
         $this->rewind();
     }
 
-    public function rotate($delta) {
+    public function rotate($delta)
+    {
         if ($this->size == 0) {
             return;
         }
         $this->offset = ($this->offset - $delta) % $this->size;
     }
 
-    private function translate($delta) {
+    private function translate($delta)
+    {
         $translated = $this->offset + $delta;
         if ($this->size > 0) {
             $translated %= $this->size;
@@ -35,44 +39,54 @@ class CircularArray implements Iterator, ArrayAccess, Countable {
                 $translated += $this->size;
             }
         }
+
         return $translated;
     }
 
-    private function isRotated() {
+    private function isRotated()
+    {
         return $this->offset !== 0;
     }
 
     /* Methods of Iterator */
-    public function current() {
+    public function current()
+    {
         return $this[$this->current];
     }
 
-    public function key() {
+    public function key()
+    {
         return $this->current;
     }
 
-    public function next() {
+    public function next()
+    {
         $this->current++;
     }
 
-    public function rewind() {
+    public function rewind()
+    {
         $this->current = 0;
     }
 
-    public function valid() {
+    public function valid()
+    {
         return $this->current < $this->size;
     }
 
     /* Methods of ArrayAccess */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return is_int($offset) && $offset >= 0 && $offset < $this->size;
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->data[self::translate($offset)];
     }
 
-    public function offsetSet($offset=null, $value) {
+    public function offsetSet($offset = null, $value = null)
+    {
         if ($offset === null) {
             $offset = $this->size;
         }
@@ -88,7 +102,8 @@ class CircularArray implements Iterator, ArrayAccess, Countable {
         $this->data[self::translate($offset)] = $value;
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         if (!$this->offsetExists($offset)) {
             throw new OutOfRangeException('Invalid offset: ' . $offset);
         }
@@ -103,7 +118,8 @@ class CircularArray implements Iterator, ArrayAccess, Countable {
     }
 
     /* Methods of Countable */
-    public function count() {
+    public function count()
+    {
         return $this->size;
     }
 }

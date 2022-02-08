@@ -179,7 +179,7 @@ class ThreeStackArrayTest extends \PHPUnit\Framework\TestCase {
         $stack->push(0, 'a');
         $stack->push(1, 'b');
         $stack->push(2, 'c');
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
         $stack->push(0, 'd');
     }
 }

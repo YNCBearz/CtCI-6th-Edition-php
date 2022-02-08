@@ -1,9 +1,12 @@
 <?php
+
 require_once __DIR__ . '/../../../src/chapter16/question16.02/WordFrequencyCalculator.php';
 
-class WordFrequencyCalculatorTest extends \PHPUnit\Framework\TestCase {
+class WordFrequencyCalculatorTest extends \PHPUnit\Framework\TestCase
+{
 
-    public function testGetFrequency() {
+    public function testGetFrequency()
+    {
         $wordFrequencyCalculator = new WordFrequencyCalculator(__DIR__ . DIRECTORY_SEPARATOR . 'book.txt');
         $this->assertEquals(2, $wordFrequencyCalculator->getFrequency("book"));
         $this->assertEquals(1, $wordFrequencyCalculator->getFrequency("a"));
@@ -14,8 +17,9 @@ class WordFrequencyCalculatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, $wordFrequencyCalculator->getFrequency("untested"));
     }
 
-    public function testFileNotFound() {
-        $this->setExpectedException('RuntimeException');
+    public function testFileNotFound()
+    {
+        $this->expectException('RuntimeException');
         new WordFrequencyCalculator(__DIR__ . DIRECTORY_SEPARATOR . 'non-existent-file.txt');
     }
 }
