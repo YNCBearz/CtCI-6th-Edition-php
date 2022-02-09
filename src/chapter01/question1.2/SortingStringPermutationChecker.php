@@ -1,16 +1,19 @@
 <?php
 
-class SortingStringPermutationChecker {
-    public static function isPermutation($str1, $str2) {
-        if (strlen($str1) !== strlen($str2)) {
+class SortingStringPermutationChecker
+{
+    public static function isPermutation($string1, $string2)
+    {
+        if (strlen($string1) != strlen($string2)) {
             return false;
         }
-        $charArray1 = str_split($str1);
-        $charArray2 = str_split($str2);
-        sort($charArray1);
-        sort($charArray2);
-        $sortedStr1 = implode('', $charArray1);
-        $sortedStr2 = implode('', $charArray2);
-        return $sortedStr1 === $sortedStr2 ? true : false;
+
+        $string1Parts = str_split($string1);
+        $string2Parts = str_split($string2);
+
+        sort($string1Parts);
+        sort($string2Parts);
+
+        return $string1Parts == $string2Parts;
     }
 }
