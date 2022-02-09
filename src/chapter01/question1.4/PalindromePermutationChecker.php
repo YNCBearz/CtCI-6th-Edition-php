@@ -1,27 +1,39 @@
 <?php
 
-class PalindromePermutationChecker {
-    public static function isPalindromePermutation($str) {
-        $charCounts = [];
-        for ($i=0, $length=strlen($str); $i<$length; $i++) {
-            $char = $str[$i];
-            // ignore spaces
-            if ($char === ' ') {
-                continue;
-            }
-            $char = strtolower($char);
-            if (array_key_exists($char, $charCounts)) {
-                $charCounts[$char]++;
-            } else {
-                $charCounts[$char] = 1;
-            }
-        }
-        $oddCount = 0;
-        foreach ($charCounts as $char => $count) {
-            if ($count % 2 != 0 && ++$oddCount > 1) {
-                return false;
+class PalindromePermutationChecker
+{
+    public static function isPalindromePermutation($string)
+    {
+        $stringPart = str_split($string);
+
+        $minASCII = ord('a');
+        $maxASCII = ord('z');
+
+        $set = [];
+        foreach ($stringPart as $character) {
+            $character = strtolower($character);
+
+            if ($minASCII <= ord($character) && ord($character) <= $maxASCII) {
+                (isset($set[$character]))
+                    ? $set[$character]++
+                    : $set[$character] = 1;
             }
         }
-        return true;
+
+        $result = true;
+        $isOneOdd = false;
+
+        foreach ($set as $character => $times) {
+            if ($times % 2 != 0 && $isOneOdd) {
+                $result = false;
+                break;
+            }
+
+            if ($times % 2 == 1) {
+                $isOneOdd = true;
+            }
+        }
+
+        return $result;
     }
 }
