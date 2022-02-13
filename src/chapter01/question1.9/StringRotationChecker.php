@@ -10,15 +10,6 @@ class StringRotationChecker
             return false;
         }
 
-        $stringRotations = [];
-        for ($offset = 1; $offset < $length1; $offset++) {
-            $partA = substr($string1, $offset);
-            $partB = substr($string1, 0, $offset);
-
-            $stringRotations[] = $partA . $partB;
-        }
-
-        return in_array($string2, $stringRotations);
+        return strpos($string1 . $string1, $string2);
     }
-
 }
