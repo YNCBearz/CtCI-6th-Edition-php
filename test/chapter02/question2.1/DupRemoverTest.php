@@ -4,15 +4,16 @@ require_once $baseDir . '/HashTableDupRemover.php';
 require_once $baseDir . '/DoublePointerDupRemover.php';
 require_once $baseDir . '/BackwardScanningDupRemover.php';
 
-class DupRemoverTest extends \PHPUnit\Framework\TestCase {
+class DupRemoverTest extends \PHPUnit\Framework\TestCase
+{
     protected $linkedList;
     protected $values;
     protected $uniqueValues;
 
     protected function setUp(): void
     {
-        $this->values = [ 80, 55, 73, 55, 1, 6, 73, 55 ];
-        $this->uniqueValues = [ 80, 55, 73, 1, 6 ];
+        $this->values = [80, 80, 55, 73, 55, 1, 6, 73, 55];
+        $this->uniqueValues = [80, 55, 73, 1, 6];
         // build a linked list
         $head = null;
         $previousNode = null;
@@ -35,7 +36,8 @@ class DupRemoverTest extends \PHPUnit\Framework\TestCase {
         $this->uniqueValues = null;
     }
 
-    public function testHashTableDupRemover() {
+    public function testHashTableDupRemover()
+    {
         HashTableDupRemover::removeDups($this->linkedList);
         $node = $this->linkedList;
         foreach ($this->uniqueValues as $expectedValue) {
@@ -45,7 +47,8 @@ class DupRemoverTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($node);
     }
 
-    public function testDoublePointerDupRemover() {
+    public function testDoublePointerDupRemover()
+    {
         DoublePointerDupRemover::removeDups($this->linkedList);
         $node = $this->linkedList;
         foreach ($this->uniqueValues as $expectedValue) {
@@ -55,7 +58,8 @@ class DupRemoverTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($node);
     }
 
-    public function testBackwardScanningDupRemover() {
+    public function testBackwardScanningDupRemover()
+    {
         BackwardScanningDupRemover::removeDups($this->linkedList);
         $node = $this->linkedList;
         foreach ($this->uniqueValues as $expectedValue) {
