@@ -1,8 +1,8 @@
 <?php
 
 class Node {
-    private $data;
-    private $next;
+    public $data;
+    public $next;
 
     public function __construct($data = null) {
         $this->data = $data;
