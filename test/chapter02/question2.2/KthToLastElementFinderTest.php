@@ -34,7 +34,23 @@ class KthToLastElementFinderTest extends \PHPUnit\Framework\TestCase
 
     public function testFind()
     {
-        $this->assertEquals(17, KthToLastElementFinder::find($this->linkedList, 3));
+        $expectedValues = [17, 44, 90];
+        // build a linked list
+        $head = null;
+        $previousNode = null;
+        foreach ($expectedValues as $value) {
+            $node = new Node($value);
+            if ($head === null) {
+                $head = $node;
+            } else {
+                $previousNode->setNext($node);
+            }
+            $previousNode = $node;
+        }
+
+        $expected = $head;
+
+        $this->assertEquals($expected, KthToLastElementFinder::find($this->linkedList, 3));
         $this->assertNull(KthToLastElementFinder::find($this->linkedList, 99));
     }
 }
