@@ -35,7 +35,7 @@ class Stack
 
     public function isEmpty()
     {
-        return $this->top == null;
+        return is_null($this->top);
     }
 
 }
