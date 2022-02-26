@@ -24,5 +24,4 @@ class PreOrder
     {
         $this->result = $this->result . $node->data;
     }
-
 }
