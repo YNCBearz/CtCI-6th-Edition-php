@@ -1,34 +1,42 @@
 <?php
+
 require_once __DIR__ . '/../../lib/BinaryTreeNodeWithParent.php';
 
-class SuccessorNodeFinder {
-    public static function findSuccessor(BinaryTreeNodeWithParent $node) {
-        $right = $node->getRight();
-        if ($right !== null) {
-            return self::diveDownAndLeft($right);
-        }
-        $rightMostParent = self::climbUpAndRight($node);
-        // The parent of rightMostParent must be a left parent or null
-        // because we climbed as far right as possible
-        return $rightMostParent->getParent();
+class SuccessorNodeFinder
+{
+    public static function findSuccessor(?BinaryTreeNodeWithParent $node)
+    {
+        return self::inorderSuccessor($node);
     }
 
-    protected static function diveDownAndLeft(BinaryTreeNodeWithParent $node) {
-        $last = $node;
-        while (($node = $last->getLeft()) !== null) {
-            $last = $node;
+    private static function inorderSuccessor(?BinaryTreeNodeWithParent $node): ?BinaryTreeNode
+    {
+        if (is_null($node)) {
+            return null;
         }
-        return $last;
-    }
 
-    protected static function climbUpAndRight(BinaryTreeNodeWithParent $node) {
-        $parent = $node;
-        while (($parent = $node->getParent()) !== null) {
-            if ($node === $parent->getLeft()) {
-                return $node;
+        if (!is_null($node->right)) {
+            return self::leftMostChild($node->right);
+        } else {
+            $parent = $node->parent;
+
+            while (!is_null($parent) && ($parent->left != $node)) {
+                $node = $parent;
+                $parent = $parent->parent;
             }
-            $node = $parent;
+
+            return $parent;
         }
+    }
+
+    private static function leftMostChild(BinaryTreeNode $node): BinaryTreeNode
+    {
+        while (!is_null($node->left)) {
+            $node = $node->left;
+        }
+
         return $node;
     }
+
+
 }
