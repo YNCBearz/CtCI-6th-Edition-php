@@ -1,35 +1,39 @@
 <?php
+
 require_once __DIR__ . '/../../lib/BinaryTreeNode.php';
 
-class BinarySearchTreeChecker {
-    public static function isBinarySearchTree(BinaryTreeNode $node, $min=null, $max=null) {
-        $left = $node->getLeft();
-        $right = $node->getRight();
-        $nodeValue = $node->getData();
-        if ($left !== null) {
-            $leftValue = $left->getData();
-            if ($nodeValue < $leftValue) {
-                return false;
-            }
-            if ($min !== null && $min > $leftValue) {
-                return false;
-            }
-            if (!self::isBinarySearchTree($left, $min, $nodeValue)) {
-                return false;
-            }
+class BinarySearchTreeChecker
+{
+    protected static ?int $lastPrinted = null;
+
+    public static function isBinarySearchTree(?BinaryTreeNode $node, $min = null, $max = null)
+    {
+        $result = self::checkBST($node);
+        self::$lastPrinted = null;
+
+        return $result;
+    }
+
+    public static function checkBST(?BinaryTreeNode $node)
+    {
+        if (is_null($node)) {
+            return true;
         }
-        if ($right !== null) {
-            $rightValue = $right->getData();
-            if ($nodeValue > $rightValue) {
-                return false;
-            }
-            if ($max !== null && $max < $rightValue) {
-                return false;
-            }
-            if (!self::isBinarySearchTree($right, $nodeValue, $max)) {
-                return false;
-            }
+
+        if (!self::checkBST($node->left)) {
+            return false;
         }
+
+        if (!is_null(self::$lastPrinted) && $node->data < self::$lastPrinted) {
+            return false;
+        }
+
+        self::$lastPrinted = $node->data;
+
+        if (!self::checkBST($node->right)) {
+            return false;
+        }
+
         return true;
     }
 }
