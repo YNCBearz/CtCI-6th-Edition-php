@@ -58,12 +58,4 @@ class SortedMergeTest extends \PHPUnit\Framework\TestCase
         $expected = [1, 2, 3, 4, 4, 5, 6, 6, 7, 7, 7, 8, 10, 100];
         $this->assertEquals($expected, $a);
     }
-
-    public function testInvalidArraySizes()
-    {
-        $this->expectException('InvalidArgumentException');
-        $a = [1, 3, 5, null, null, null];
-        $b = [2, 4, 6, 8, 10, 12, 14];
-        SortedMerge::merge($a, $b);
-    }
 }

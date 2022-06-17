@@ -1,27 +1,36 @@
 <?php
 
-class SortedMerge {
+class SortedMerge
+{
+    public static function merge(array &$a, array &$b)
+    {
+        $indexA = self::getLastElementIndex($a);
+        $indexB = self::getLastElementIndex($b);
 
-    public static function merge(array &$a, array &$b) {
-        $aSize = count($a);
-        $bSize = count($b);
-        if ($bSize > $aSize) {
-            throw new InvalidArgumentException('The first array must be larger than the second array.');
-        }
-        $bCursor = $bSize - 1;
-        $aCursor = $aSize - $bSize - 1;
-        $combinedCursor = $aSize - 1;
-        while ($combinedCursor >= 0) {
-            if ($aCursor < 0) {
-                $value = $b[$bCursor--];
-            } elseif ($bCursor < 0) {
-                $value = $a[$aCursor--];
-            } elseif ($a[$aCursor] >= $b[$bCursor]) {
-                $value = $a[$aCursor--];
+        $indexMerged = count($a) - 1;
+
+        while ($indexB >= 0) {
+            if ($indexA >= 0 && $a[$indexA] > $b[$indexB]) {
+                $a[$indexMerged] = $a[$indexA];
+                $indexA--;
             } else {
-                $value = $b[$bCursor--];
+                $a[$indexMerged] = $b[$indexB];
+                $indexB--;
             }
-            $a[$combinedCursor--] = $value;
+            $indexMerged--;
         }
+    }
+
+    public static function getLastElementIndex(array $array): int
+    {
+        $result = -1;
+        foreach ($array as $value) {
+            if (is_null($value)) {
+                break;
+            }
+            $result++;
+        }
+
+        return $result;
     }
 }
