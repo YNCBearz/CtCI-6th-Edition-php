@@ -1,9 +1,15 @@
 <?php
+
 require_once __DIR__ . '/../../../src/chapter10/question10.02/AnagramGrouper.php';
 
-class AnagramGrouperTest extends \PHPUnit\Framework\TestCase {
+use AnagramGrouper;
 
-    public function testGroupAnagrams() {
+class AnagramGrouperTest extends \PHPUnit\Framework\TestCase
+{
+    protected AnagramGrouper $sut;
+
+    public function testGroupAnagrams()
+    {
         $a = [
             'sale',
             'algorithm',
@@ -19,7 +25,7 @@ class AnagramGrouperTest extends \PHPUnit\Framework\TestCase {
             'ales'
         ];
 
-        $grouped = AnagramGrouper::groupAnagrams($a);
+        $this->sut = new AnagramGrouper;
 
         $expected = [
             'sale',
@@ -35,6 +41,8 @@ class AnagramGrouperTest extends \PHPUnit\Framework\TestCase {
             'apple',
             'banana'
         ];
-        $this->assertEquals($expected, $grouped);
+
+        $actual = $this->sut->groupAnagrams($a);
+        $this->assertEquals($expected, $actual);
     }
 }
