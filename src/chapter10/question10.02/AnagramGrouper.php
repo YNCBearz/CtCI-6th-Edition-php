@@ -13,10 +13,10 @@ class AnagramGrouper
             }
             $divides = self::divideIntoGroups($words, $index);
 
-            $sameGroupwords = $divides['sameGroupwords'];
+            $sameGroupwords = $divides['same_group_words'];
             $result = array_merge($result, $sameGroupwords);
 
-            $sameGroupwordIndexes = $divides['sameGroupwordIndexes'];
+            $sameGroupwordIndexes = $divides['same_group_word_indexes'];
             foreach ($sameGroupwordIndexes as $sameGroupwordIndex) {
                 unset($words[$sameGroupwordIndex]);
             }
@@ -49,8 +49,8 @@ class AnagramGrouper
         }
 
         return [
-            'sameGroupwords' => $sameGroupwords,
-            'sameGroupwordIndexes' => $sameGroupwordIndexes,
+            'same_group_words' => $sameGroupwords,
+            'same_group_word_indexes' => $sameGroupwordIndexes,
         ];
     }
 

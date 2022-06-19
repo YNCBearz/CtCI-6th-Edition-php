@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '/../../../src/chapter10/question10.02/AnagramGrouper.php';
 
-use AnagramGrouper;
-
 class AnagramGrouperTest extends \PHPUnit\Framework\TestCase
 {
     protected AnagramGrouper $sut;
