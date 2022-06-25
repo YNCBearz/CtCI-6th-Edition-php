@@ -29,14 +29,23 @@ class SearchedInRotatedArray
 			return $midPointIndex;
 		}
 
-		if ($midPoint > $target) {
-			if (($target >= $items[$midPointIndex - 1])) {
-				return $this->searchLeft($items, $target, $midPointIndex);
-			}
+		$firstItem = $items[0];
+		$lastItem = $items[count($items) - 1];
 
-			if ($target >= $items[$midPointIndex + 1]) {
-				return $this->searchRight($items, $target, $midPointIndex);
-			}
+		if (($firstItem <= $target) && ($target <= $midPoint)) {
+			return $this->searchLeft($items, $target, $midPointIndex);
+		}
+
+		if (($lastItem <= $target) && ($target <= $midPoint)) {
+			return $this->searchRight($items, $target, $midPointIndex);
+		}
+
+		if (($firstItem <= $target) && ($target >= $midPoint)) {
+			return $this->searchLeft($items, $target, $midPointIndex);
+		}
+
+		if (($lastItem <= $target) && ($target >= $midPoint)) {
+			return $this->searchRight($items, $target, $midPointIndex);
 		}
 	}
 
