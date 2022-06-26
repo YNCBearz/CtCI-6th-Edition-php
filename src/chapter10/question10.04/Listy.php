@@ -11,13 +11,12 @@ class Listy
 		$this->items = $items;
 	}
 
-	public function elementAt(int $item): int
+	public function elementAt(int $index): int
 	{
 		$result = self::ITEM_NOT_FOUND;
 
-		$index = array_search($item, $this->items);
-		if (is_int($index)) {
-			$result = $index;
+		if (isset($this->items[$index])) {
+			return $this->items[$index];
 		}
 
 		return $result;
