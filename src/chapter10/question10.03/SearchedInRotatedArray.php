@@ -2,19 +2,19 @@
 
 class SearchedInRotatedArray
 {
-	const TARGET_NOT_FOUND = -1;
+	const ITEM_NOT_FOUND = -1;
 
 	public function search(array $items, int $target): int
 	{
 		$originalItemsCount = count($items);
 		if ($originalItemsCount == 0) {
-			return self::TARGET_NOT_FOUND;
+			return self::ITEM_NOT_FOUND;
 		}
 
 		if ($originalItemsCount == 1) {
 			return ($items[0] == $target)
 				? 0
-				: self::TARGET_NOT_FOUND;
+				: self::ITEM_NOT_FOUND;
 		}
 
 		if ($originalItemsCount == 2) {
@@ -56,7 +56,7 @@ class SearchedInRotatedArray
 			}
 		}
 
-		return self::TARGET_NOT_FOUND;
+		return self::ITEM_NOT_FOUND;
 	}
 
 	private function searchLeft(array $items, int $target, int $startIndex): int
@@ -67,7 +67,7 @@ class SearchedInRotatedArray
 			}
 		}
 
-		return self::TARGET_NOT_FOUND;
+		return self::ITEM_NOT_FOUND;
 	}
 
 	private function fixIndex($index, $originalItemsCount): int
