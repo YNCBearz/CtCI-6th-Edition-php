@@ -6,19 +6,22 @@ class SearchedInRotatedArray
 
 	public function search(array $items, int $target): int
 	{
-		if (count($items) == 0) {
+		$originalItemsCount = count($items);
+		if ($originalItemsCount == 0) {
 			return self::TARGET_NOT_FOUND;
 		}
 
-		if (count($items) == 1) {
+		if ($originalItemsCount == 1) {
 			return ($items[0] == $target)
 				? 0
 				: self::TARGET_NOT_FOUND;
 		}
 
-		if (count($items) == 2) {
+		if ($originalItemsCount == 2) {
 			return $this->searchRight($items, $target, 0);
 		}
+
+		$items = array_merge($items, $items);
 
 		$midPointInfo = $this->getMidPointInfo($items);
 
@@ -26,27 +29,12 @@ class SearchedInRotatedArray
 		$midPoint = $midPointInfo['value'];
 
 		if ($midPoint == $target) {
-			return $midPointIndex;
+			return $this->fixIndex($midPointIndex, $originalItemsCount);
 		}
 
-		$firstItem = $items[0];
-		$lastItem = $items[count($items) - 1];
+		$index = $this->searchRight($items, $target, $midPointIndex);
 
-		if (($firstItem <= $target) && ($target <= $midPoint)) {
-			return $this->searchLeft($items, $target, $midPointIndex);
-		}
-
-		if (($lastItem <= $target) && ($target <= $midPoint)) {
-			return $this->searchRight($items, $target, $midPointIndex);
-		}
-
-		if (($firstItem <= $target) && ($target >= $midPoint)) {
-			return $this->searchLeft($items, $target, $midPointIndex);
-		}
-
-		if (($lastItem <= $target) && ($target >= $midPoint)) {
-			return $this->searchRight($items, $target, $midPointIndex);
-		}
+		return $this->fixIndex($index, $originalItemsCount);
 	}
 
 	private function getMidPointInfo(array $items): array
@@ -80,5 +68,14 @@ class SearchedInRotatedArray
 		}
 
 		return self::TARGET_NOT_FOUND;
+	}
+
+	private function fixIndex($index, $originalItemsCount): int
+	{
+		if ($index > $originalItemsCount - 1) {
+			return $index - $originalItemsCount;
+		}
+
+		return $index;
 	}
 }
