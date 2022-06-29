@@ -27,63 +27,24 @@ class SortedSearchNoSize
 			$index = $index * 2;
 		}
 
-		$midPointInfo = $this->getMidPointInfo($index);
-
-		$midPointValue = $midPointInfo['value'];
-		$midPointIndex = $midPointInfo['index'];
-
-		if ($midPointValue == $target) {
-			return $midPointIndex;
-		}
-
-
-		if ($midPointValue > $target) {
-			return $this->searchLeft($target, $midPointIndex, 0);
-		}
-
-		if ($midPointValue < $target) {
-			return $this->searchRight($target, $midPointIndex, $index * 2);
-		}
-
-		return self::ITEM_NOT_FOUND;
+		return $this->binarySearch($target, 0, $index);
 	}
 
-	private function searchRight(int $target, int $startIndex, int $endIndex): int
+	private function binarySearch(int $target, int $left, int $right): int
 	{
-		for ($i = $startIndex; $i <= $endIndex; $i++) {
-			$item = $this->listy->elementAt($i);
-			if ($item === $target) {
-				return $i;
-			}
+		while ($left <= $right) {
+			$midPointIndex = (int)floor(($left + $right) / 2);
+			$midPointValue = $this->listy->elementAt($midPointIndex);
 
-			if ($item == self::ITEM_NOT_FOUND) {
-				break;
+			if ($midPointValue > $target || $midPointValue == -1) {
+				$right = $midPointIndex - 1;
+			} else if ($midPointValue < $target) {
+				$left = $midPointIndex + 1;
+			} else {
+				return $midPointIndex;
 			}
 		}
 
 		return self::ITEM_NOT_FOUND;
-	}
-
-	private function searchLeft(int $target, int $startIndex, int $endIndex): int
-	{
-		for ($i = $startIndex; $i >= $endIndex; $i--) {
-			$item = $this->listy->elementAt($i);
-			if ($item === $target) {
-				return $i;
-			}
-		}
-
-		return self::ITEM_NOT_FOUND;
-	}
-
-	private function getMidPointInfo(int $index): array
-	{
-		$midPointIndex = (int)floor($index / 2);
-		$midPointValue = $this->listy->elementAt($midPointIndex);
-
-		return [
-			'index' => $midPointIndex,
-			'value' => $midPointValue,
-		];
 	}
 }
