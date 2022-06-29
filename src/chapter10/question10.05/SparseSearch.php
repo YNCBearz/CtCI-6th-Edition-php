@@ -126,7 +126,7 @@ class SparseSearch
 			}
 
 			$i++;
-			$j--;
+			$j++;
 		}
 
 		return [

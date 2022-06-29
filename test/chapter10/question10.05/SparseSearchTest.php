@@ -81,6 +81,11 @@ class SparseSearchTest extends TestCase
 				'eeeee',
 				-1
 			],
+			[
+				['', '', ''],
+				'a',
+				-1
+			],
 		];
 	}
 }
