@@ -33,15 +33,15 @@ class SortedSearchNoSize
 	private function binarySearch(int $target, int $left, int $right): int
 	{
 		while ($left <= $right) {
-			$midPointIndex = (int)floor(($left + $right) / 2);
-			$midPointValue = $this->listy->elementAt($midPointIndex);
+			$mid = (int)floor(($left + $right) / 2);
+			$midValue = $this->listy->elementAt($mid);
 
-			if ($midPointValue > $target || $midPointValue == -1) {
-				$right = $midPointIndex - 1;
-			} else if ($midPointValue < $target) {
-				$left = $midPointIndex + 1;
+			if ($midValue > $target || $midValue == -1) {
+				$right = $mid - 1;
+			} else if ($midValue < $target) {
+				$left = $mid + 1;
 			} else {
-				return $midPointIndex;
+				return $mid;
 			}
 		}
 
