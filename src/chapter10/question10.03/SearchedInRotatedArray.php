@@ -65,11 +65,11 @@ class SearchedInRotatedArray
 		}
 
 		if ($isLeftOrdered) {
-			return $this->binarySearch($items, $target, $mid, $right);
+			return $this->search($items, $target, $mid, $right);
 		}
 
 		if ($isRightOrdered) {
-			return $this->binarySearch($items, $target, $left, $mid);
+			return $this->search($items, $target, $left, $mid);
 		}
 	}
 
