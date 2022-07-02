@@ -28,6 +28,10 @@ class SearchedInRotatedArray
 
 		$mid = (int)floor(($left + $right) / 2);
 
+		if ($mid < 0) {
+			return self::ITEM_NOT_FOUND;
+		}
+
 		if ($items[$mid] == $target) {
 			return $mid;
 		}
@@ -65,12 +69,14 @@ class SearchedInRotatedArray
 		}
 
 		if ($isLeftOrdered) {
-			return $this->search($items, $target, $mid, $right);
+			return $this->search($items, $target, $mid, $right - 1);
 		}
 
 		if ($isRightOrdered) {
-			return $this->search($items, $target, $left, $mid);
+			return $this->search($items, $target, $left, $mid - 1);
 		}
+
+		return self::ITEM_NOT_FOUND;
 	}
 
 	private function binarySearch(array $items, int $target, int $left, int $right): int
