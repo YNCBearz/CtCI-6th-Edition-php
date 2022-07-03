@@ -11,85 +11,66 @@ class SparseSearch
 		$this->items = $items;
 	}
 
-	public function search(string $target): int
+	public function search(string $target, ?int $left = null, ?int $right = null): int
 	{
-		if (count($this->items) == 0) {
+		$items = $this->items;
+
+		if (count($items) == 0) {
 			return self::ITEM_NOT_FOUND;
 		}
 
-		if (count($this->items) == 1) {
-			return ($this->items[0] == $target)
+		if (count($items) == 1) {
+			return ($items[0] == $target)
 				? 0
 				: self::ITEM_NOT_FOUND;
 		}
 
-		$midPointInfo = $this->getMidPointInfo();
+		if (is_null($left)) {
+			$left = 0;
+		}
 
-		$midPointValue = $midPointInfo['value'];
-		$midPointIndex = $midPointInfo['index'];
+		if (is_null($right)) {
+			$right = count($items) - 1;
+		}
 
-		$currentValue = $midPointValue;
-		$currentIndex = $midPointIndex;
+		if ($left > $right) {
+			return self::ITEM_NOT_FOUND;
+		}
 
-		if ($midPointValue == '') {
-			$closestPointInfo = $this->findClosestNotEmptyPoint($midPointIndex);
+		$mid = floor(($left + $right) / 2);
 
-			$currentIndex = $closestPointInfo['index'];
+		$currentIndex = $mid;
+		$currentValue = $items[$mid];
+
+		if ($currentValue == '') {
+			$closestNotEmptyPointInfo = $this->findClosestNotEmptyPoint($currentIndex);
+
+			$currentIndex = $closestNotEmptyPointInfo['index'];
+			$currentValue = $closestNotEmptyPointInfo['value'];
 
 			if ($currentIndex == self::ITEM_NOT_FOUND) {
 				return self::ITEM_NOT_FOUND;
 			}
-
-			$currentValue = $closestPointInfo['value'];
 		}
 
 		if ($currentValue == $target) {
 			return $currentIndex;
 		}
 
+		if ($items[$left] == $target) {
+			return $left;
+		}
+
+		if ($items[$right] == $target) {
+			return $right;
+		}
+
 		if (strnatcmp($currentValue, $target) > 0) {
-			return $this->searchLeft($target, $currentIndex);
+			return $this->search($target, $left, $currentIndex - 1);
 		}
 
 		if (strnatcmp($currentValue, $target) < 0) {
-			return $this->searchRight($target, $currentIndex);
-		}
-	}
-
-	private function getMidPointInfo(): array
-	{
-		$items = $this->items;
-
-		$index = (int)floor((count($items) - 1) / 2);
-		$value = $items[$index];
-
-		return [
-			'index' => $index,
-			'value' => $value
-		];
-	}
-
-	private function searchRight(string $target, int $startIndex): int
-	{
-		$items = $this->items;
-
-		for ($i = $startIndex; $i <= count($items) - 1; $i++) {
-			if ($items[$i] == $target) {
-				return $i;
-			}
-		}
-
-		return self::ITEM_NOT_FOUND;
-	}
-
-	private function searchLeft(string $target, int $startIndex): int
-	{
-		$items = $this->items;
-
-		for ($i = $startIndex; $i >= 0; $i--) {
-			if ($items[$i] == $target) {
-				return $i;
-			}
+			return $this->search($target, $currentIndex, $right - 1);
 		}
 
 		return self::ITEM_NOT_FOUND;
@@ -97,36 +78,40 @@ class SparseSearch
 
 	private function findClosestNotEmptyPoint(int $midPointIndex)
 	{
-		$i = 1;
-		$j = 1;
-
 		$closestNotEmptyPointIndex = self::ITEM_NOT_FOUND;
 		$closestNotEmptyPointValue = '';
 
+		$left = $midPointIndex - 1;
+		$right = $midPointIndex + 1;
+
 		while (
-			isset($this->items[$midPointIndex + $i]) ||
-			isset($this->items[$midPointIndex - $j])
+			isset($this->items[$left]) ||
+			isset($this->items[$right])
 		) {
 			if (
-				isset($this->items[$midPointIndex + $i]) &&
-				$this->items[$midPointIndex + $i] != ''
+				isset($this->items[$right]) &&
+				$this->items[$right] != ''
 			) {
-				$closestNotEmptyPointIndex = $midPointIndex + $i;
+				$closestNotEmptyPointIndex = $right;
 				$closestNotEmptyPointValue = $this->items[$closestNotEmptyPointIndex];
 				break;
 			}
 
 			if (
-				isset($this->items[$midPointIndex - $j]) &&
-				$this->items[$midPointIndex - $j] != ''
+				isset($this->items[$left]) &&
+				$this->items[$left] != ''
 			) {
-				$closestNotEmptyPointIndex = $midPointIndex - $j;
+				$closestNotEmptyPointIndex = $left;
 				$closestNotEmptyPointValue = $this->items[$closestNotEmptyPointIndex];
 				break;
 			}
 
-			$i++;
-			$j++;
+			$right++;
+			$left--;
+
+			if ($left > $right) {
+				break;
+			}
 		}
 
 		return [
