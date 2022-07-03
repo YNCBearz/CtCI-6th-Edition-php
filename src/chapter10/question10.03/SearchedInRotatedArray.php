@@ -44,18 +44,18 @@ class SearchedInRotatedArray
 			return $right;
 		}
 
-		$isLeftOrdered = ($items[$left] <= $items[$mid])
+		$isLeftSorted = ($items[$left] <= $items[$mid])
 			? true
 			: false;
 
-		$isRightOrdered = ($items[$mid] <= $items[$right])
+		$isRightSorted = ($items[$mid] <= $items[$right])
 			? true
 			: false;
 
 		if (
 			($items[$left] < $target) &&
 			($target < $items[$mid]) &&
-			$isLeftOrdered
+			$isLeftSorted
 		) {
 			return $this->binarySearch($items, $target, $left, $mid);
 		}
@@ -63,16 +63,16 @@ class SearchedInRotatedArray
 		if (
 			($items[$mid] < $target) &&
 			($target < $items[$right]) &&
-			$isRightOrdered
+			$isRightSorted
 		) {
 			return $this->binarySearch($items, $target, $mid, $right);
 		}
 
-		if ($isLeftOrdered) {
+		if ($isLeftSorted) {
 			return $this->search($items, $target, $mid, $right - 1);
 		}
 
-		if ($isRightOrdered) {
+		if ($isRightSorted) {
 			return $this->search($items, $target, $left, $mid - 1);
 		}
 
